@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { ZxAIClientOptions, ZxAIClient, ZxAIClientEvent } from '@naeural/jsclient';
-import { ZxAI_MODULE_OPTIONS, DEFAULT_CLIENT_NAME } from './zxai.constants.js';
+import {ZxAI_MODULE_OPTIONS, DEFAULT_CLIENT_NAME, ZxAI_MODULE_ID} from './zxai.constants.js';
 import {
     ZxAIClientFactory,
     ZxAIModuleAsyncOptions,
@@ -83,7 +83,7 @@ export class ZxAIModule implements OnApplicationShutdown, OnApplicationBootstrap
             ...asyncProviders,
             networkClientProvider,
             {
-                provide: ZxAI_MODULE_OPTIONS,
+                provide: ZxAI_MODULE_ID,
                 useValue: uuid(),
             },
             ...(options.extraProviders || []),
