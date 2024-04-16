@@ -1,0 +1,11 @@
+export const ZxAI_MODULE_OPTIONS = 'ZxAIModuleOptions';
+export const ZxAI_MODULE_ID = 'ZxAIModuleId';
+export const DEFAULT_CLIENT_NAME = '0xai:client';
+export const ZxAI_GATEWAY_METADATA = '0xai:is-gateway';
+export const PAYLOAD_MAPPING_METADATA = '0xai:payload';
+export const STREAM_MAPPING_METADATA = '0xai:stream';
+export const STREAM_SUBSCRIPTION_METADATA = '0xai:stream-subscription';
+export const PAYLOAD_SUBSCRIPTION_METADATA = '0xai:payload-subscription';
+export const NETWORK_CLIENT_METADATA = '0xai:is-client';
+export const CLIENT_EVENT_MAPPING_METADATA = '0xai:client-event';
+export const CLIENT_EVENT_SUBSCRIPTION_METADATA = '0xai:client-event-subscription';
