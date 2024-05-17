@@ -1,6 +1,6 @@
 {
   "name": "@naeural/nestjs-module",
-  "version": "0.9.2",
+  "version": "0.9.4",
   "description": "This is the official NaeuralEdgeProtocol NestJS module for integrating the NaeuralEdgeProtocol Network in a NestJS application.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
