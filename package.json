@@ -1,6 +1,6 @@
 {
   "name": "@naeural/nestjs-module",
-  "version": "0.9.4",
+  "version": "0.10.4",
   "description": "This is the official NaeuralEdgeProtocol NestJS module for integrating the NaeuralEdgeProtocol Network in a NestJS application.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/NaeuralEdgeProtocol/nestjs-module#readme",
   "dependencies": {
-    "@naeural/jsclient": "^2.3.11",
+    "@naeural/jsclient": "^3.0.1",
     "reflect-metadata": "^0.1.13",
     "typescript": "^5.1.6",
     "uuid": "^9.0.0"
