@@ -1,4 +1,4 @@
-import { STREAM_MAPPING_METADATA, STREAM_SUBSCRIPTION_METADATA } from '../zxai.constants.js';
+import { STREAM_MAPPING_METADATA, STREAM_SUBSCRIPTION_METADATA } from '../naeural.constants.js';
 
 /**
  * Subscribe to NaeuralEdgeProtocol Network event stream.

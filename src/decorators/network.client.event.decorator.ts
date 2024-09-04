@@ -1,4 +1,4 @@
-import { CLIENT_EVENT_MAPPING_METADATA, CLIENT_EVENT_SUBSCRIPTION_METADATA } from '../zxai.constants.js';
+import { CLIENT_EVENT_MAPPING_METADATA, CLIENT_EVENT_SUBSCRIPTION_METADATA } from '../naeural.constants.js';
 
 /**
  * @param signature

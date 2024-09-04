@@ -1,4 +1,4 @@
-import { NETWORK_CLIENT_METADATA } from '../zxai.constants.js';
+import { NETWORK_CLIENT_METADATA } from '../naeural.constants.js';
 
 /**
  * Attaches the NaeuralEdgeProtocol Network client to a specific property.

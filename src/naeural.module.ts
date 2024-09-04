@@ -9,29 +9,29 @@ import {
     Type,
 } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
-import { ZxAIClientOptions, ZxAIClient, ZxAIClientEvent } from '@naeural/jsclient';
-import {ZxAI_MODULE_OPTIONS, DEFAULT_CLIENT_NAME, ZxAI_MODULE_ID} from './zxai.constants.js';
+import { NaeuralOptions, Naeural, NaeuralEvent } from '@naeural/jsclient';
+import {NAEURAL_MODULE_OPTIONS, DEFAULT_CLIENT_NAME, NAEURAL_MODULE_ID} from './naeural.constants.js';
 import {
-    ZxAIClientFactory,
-    ZxAIModuleAsyncOptions,
-    ZxAIModuleOptions,
-    ZxAIOptionsFactory,
-} from './interfaces/zxai.module.interfaces.js';
+    NaeuralClientFactory,
+    NaeuralModuleAsyncOptions,
+    NaeuralModuleOptions,
+    NaeuralOptionsFactory,
+} from './interfaces/naeural.module.interfaces.js';
 import { defer, lastValueFrom } from 'rxjs';
-import { ZxAIService } from './services/zxai.service.js';
+import { NaeuralService } from './services/naeural.service.js';
 import { MetadataExplorerService } from './services/metadata.explorer.service.js';
 import { MetadataScanner } from '@nestjs/core/metadata-scanner.js';
 import { v4 as uuid } from 'uuid';
 
 @Global()
 @Module({
-    providers: [ZxAIService, MetadataExplorerService, MetadataScanner],
+    providers: [NaeuralService, MetadataExplorerService, MetadataScanner],
 })
-export class ZxAIModule implements OnApplicationShutdown, OnApplicationBootstrap {
-    private static readonly logger = new Logger('ZxAIModule');
+export class NaeuralModule implements OnApplicationShutdown, OnApplicationBootstrap {
+    private static readonly logger = new Logger('NaeuralModule');
 
     constructor(
-        private readonly networkService: ZxAIService,
+        private readonly networkService: NaeuralService,
         private readonly moduleRef: ModuleRef,
     ) {}
 
@@ -39,9 +39,9 @@ export class ZxAIModule implements OnApplicationShutdown, OnApplicationBootstrap
         this.networkService.subscribe();
     }
 
-    static register(options: ZxAIModuleOptions): DynamicModule {
-        const zxaiModuleOptions = {
-            provide: ZxAI_MODULE_OPTIONS,
+    static register(options: NaeuralModuleOptions): DynamicModule {
+        const naeuralModuleOptions = {
+            provide: NAEURAL_MODULE_OPTIONS,
             useValue: options,
         };
 
@@ -50,32 +50,32 @@ export class ZxAIModule implements OnApplicationShutdown, OnApplicationBootstrap
             useFactory: async () => await this.createNetworkClientFactory(options),
         };
 
-        const providers = [networkClientProvider, zxaiModuleOptions];
+        const providers = [networkClientProvider, naeuralModuleOptions];
         const exports = [networkClientProvider];
 
         return {
-            module: ZxAIModule,
+            module: NaeuralModule,
             providers,
             exports,
         };
     }
 
-    static registerAsync(options: ZxAIModuleAsyncOptions): DynamicModule {
+    static registerAsync(options: NaeuralModuleAsyncOptions): DynamicModule {
         const networkClientProvider = {
             provide: DEFAULT_CLIENT_NAME,
-            useFactory: async (zxaiOptions: ZxAIModuleOptions) => {
+            useFactory: async (naeuralOptions: NaeuralModuleOptions) => {
                 if (options.name) {
                     return await this.createNetworkClientFactory(
                         {
-                            ...zxaiOptions,
+                            ...naeuralOptions,
                         },
                         options.clientFactory,
                     );
                 }
 
-                return await this.createNetworkClientFactory(zxaiOptions, options.clientFactory);
+                return await this.createNetworkClientFactory(naeuralOptions, options.clientFactory);
             },
-            inject: [ZxAI_MODULE_OPTIONS],
+            inject: [NAEURAL_MODULE_OPTIONS],
         };
 
         const asyncProviders = this.createAsyncProviders(options);
@@ -83,7 +83,7 @@ export class ZxAIModule implements OnApplicationShutdown, OnApplicationBootstrap
             ...asyncProviders,
             networkClientProvider,
             {
-                provide: ZxAI_MODULE_ID,
+                provide: NAEURAL_MODULE_ID,
                 useValue: uuid(),
             },
             ...(options.extraProviders || []),
@@ -92,7 +92,7 @@ export class ZxAIModule implements OnApplicationShutdown, OnApplicationBootstrap
         const exports: Array<Provider | Function> = [networkClientProvider];
 
         return {
-            module: ZxAIModule,
+            module: NaeuralModule,
             imports: options.imports,
             providers,
             exports,
@@ -100,21 +100,22 @@ export class ZxAIModule implements OnApplicationShutdown, OnApplicationBootstrap
     }
 
     async onApplicationShutdown(): Promise<any> {
-        const client = this.moduleRef.get<ZxAIClient>(DEFAULT_CLIENT_NAME);
+        const client = this.moduleRef.get<Naeural>(DEFAULT_CLIENT_NAME);
         try {
             if (client) {
+                // @ts-ignore
                 await client.shutdown();
             }
         } catch (e) {
-            ZxAIModule.logger.error(e?.message);
+            NaeuralModule.logger.error(e?.message);
         }
     }
 
-    private static createAsyncProviders(options: ZxAIModuleAsyncOptions): Provider[] {
+    private static createAsyncProviders(options: NaeuralModuleAsyncOptions): Provider[] {
         if (options.useExisting || options.useFactory) {
             return [this.createAsyncOptionsProvider(options)];
         }
-        const useClass = options.useClass as Type<ZxAIOptionsFactory>;
+        const useClass = options.useClass as Type<NaeuralOptionsFactory>;
         return [
             this.createAsyncOptionsProvider(options),
             {
@@ -124,30 +125,30 @@ export class ZxAIModule implements OnApplicationShutdown, OnApplicationBootstrap
         ];
     }
 
-    private static createAsyncOptionsProvider(options: ZxAIModuleAsyncOptions): Provider {
+    private static createAsyncOptionsProvider(options: NaeuralModuleAsyncOptions): Provider {
         if (options.useFactory) {
             return {
-                provide: ZxAI_MODULE_OPTIONS,
+                provide: NAEURAL_MODULE_OPTIONS,
                 useFactory: options.useFactory,
                 inject: options.inject || [],
             };
         }
 
-        const inject = [(options.useClass || options.useExisting) as Type<ZxAIOptionsFactory>];
+        const inject = [(options.useClass || options.useExisting) as Type<NaeuralOptionsFactory>];
 
         return {
-            provide: ZxAI_MODULE_OPTIONS,
-            useFactory: async (optionsFactory: ZxAIOptionsFactory) =>
-                await optionsFactory.createZxAIOptions(options.name), // TODO: implement this and test
+            provide: NAEURAL_MODULE_OPTIONS,
+            useFactory: async (optionsFactory: NaeuralOptionsFactory) =>
+                await optionsFactory.createNaeuralOptions(options.name), // TODO: implement this and test
             inject,
         };
     }
 
-    private static async createNetworkClientFactory(options: ZxAIModuleOptions, clientFactory?: ZxAIClientFactory) {
-        const createZxAIClient =
+    private static async createNetworkClientFactory(options: NaeuralModuleOptions, clientFactory?: NaeuralClientFactory) {
+        const createNaeuralClient =
             clientFactory ??
-            ((options: ZxAIModuleOptions) => {
-                const client = new ZxAIClient(options as ZxAIClientOptions, this.logger);
+            ((options: NaeuralModuleOptions) => {
+                const client = new Naeural(options as NaeuralOptions, this.logger);
                 client.boot();
 
                 this.attachLifecycleCallbacks(client);
@@ -157,49 +158,49 @@ export class ZxAIModule implements OnApplicationShutdown, OnApplicationBootstrap
 
         return await lastValueFrom(
             defer(async () => {
-                return createZxAIClient(options as ZxAIClientOptions);
+                return createNaeuralClient(options as NaeuralOptions);
             }),
         );
     }
 
-    private static attachLifecycleCallbacks(client: ZxAIClient) {
+    private static attachLifecycleCallbacks(client: Naeural) {
         // @ts-ignore
-        client.on(ZxAIClientEvent.ZxAI_CLIENT_CONNECTED, (data) => {
+        client.on(NaeuralEvent.NAEURAL_CLIENT_CONNECTED, (data) => {
             this.logger.log(`Succesfully connected to upstream: ${data.upstream}`);
         });
 
         // @ts-ignore
-        client.on(ZxAIClientEvent.ZxAI_CLIENT_BOOTED, () => {
+        client.on(NaeuralEvent.NAEURAL_CLIENT_BOOTED, () => {
             this.logger.log('NaeuralEdgeProtocol Network client successfully booted.');
         });
 
         // @ts-ignore
-        client.on(ZxAIClientEvent.ZxAI_CLIENT_SHUTDOWN, () => {
+        client.on(NaeuralEvent.NAEURAL_CLIENT_SHUTDOWN, () => {
             this.logger.log('NaeuralEdgeProtocol Network client successfully shutdown.');
         });
 
         // @ts-ignore
-        client.on(ZxAIClientEvent.ZxAI_ENGINE_OFFLINE, (data) => {
-            this.logger.warn(`Execution Engine OFFLINE: ${data.executionEngine}`);
+        client.on(NaeuralEvent.NAEURAL_ENGINE_OFFLINE, (data) => {
+            this.logger.warn(`Edge Node OFFLINE: ${data.node} (${data.address})`);
         });
 
         // @ts-ignore
-        client.on(ZxAIClientEvent.ZxAI_ENGINE_REGISTERED, (status) => {
-            this.logger.log(`Successfully REGISTERED new Execution Engine: ${status.executionEngine}`);
+        client.on(NaeuralEvent.NAEURAL_ENGINE_REGISTERED, (status) => {
+            this.logger.log(`Successfully REGISTERED new Edge Node: ${status.node} (${status.address})`);
         });
 
         // @ts-ignore
-        client.on(ZxAIClientEvent.ZxAI_ENGINE_DEREGISTERED, (status) => {
-            this.logger.log(`Successfully DEREGISTERED Execution Engine: ${status.executionEngine}`);
+        client.on(NaeuralEvent.NAEURAL_ENGINE_DEREGISTERED, (status) => {
+            this.logger.log(`Successfully DEREGISTERED Edge Node: ${status.node} (${status.address})`);
         });
 
         // @ts-ignore
-        client.on(ZxAIClientEvent.ZxAI_BC_ADDRESS, (message) => {
+        client.on(NaeuralEvent.NAEURAL_BC_ADDRESS, (message) => {
             this.logger.log(`NaeuralEdgeProtocol Blockchain Address: ${message.address}`);
         });
 
         // @ts-ignore
-        client.on(ZxAIClientEvent.ZxAI_CLIENT_SYS_TOPIC_SUBSCRIBE, (err, data) => {
+        client.on(NaeuralEvent.NAEURAL_CLIENT_SYS_TOPIC_SUBSCRIBE, (err, data) => {
             if (err) {
                 this.logger.error(err.message, JSON.stringify(err));
 
@@ -212,7 +213,7 @@ export class ZxAIModule implements OnApplicationShutdown, OnApplicationBootstrap
         });
 
         // @ts-ignore
-        client.on(ZxAIClientEvent.ZxAI_CLIENT_SYS_TOPIC_UNSUBSCRIBE, (err, data) => {
+        client.on(NaeuralEvent.NAEURAL_CLIENT_SYS_TOPIC_UNSUBSCRIBE, (err, data) => {
             if (err) {
                 this.logger.error(err.message, JSON.stringify(err));
 

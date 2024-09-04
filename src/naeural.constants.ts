@@ -1,0 +1,11 @@
+export const NAEURAL_MODULE_OPTIONS = 'NaeuralModuleOptions';
+export const NAEURAL_MODULE_ID = 'NaeuralModuleId';
+export const DEFAULT_CLIENT_NAME = 'naeural:client';
+export const NAEURAL_GATEWAY_METADATA = 'naeural:is-gateway';
+export const PAYLOAD_MAPPING_METADATA = 'naeural:payload';
+export const STREAM_MAPPING_METADATA = 'naeural:stream';
+export const STREAM_SUBSCRIPTION_METADATA = 'naeural:stream-subscription';
+export const PAYLOAD_SUBSCRIPTION_METADATA = 'naeural:payload-subscription';
+export const NETWORK_CLIENT_METADATA = 'naeural:is-client';
+export const CLIENT_EVENT_MAPPING_METADATA = 'naeural:client-event';
+export const CLIENT_EVENT_SUBSCRIPTION_METADATA = 'naeural:client-event-subscription';

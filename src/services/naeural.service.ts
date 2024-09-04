@@ -1,26 +1,26 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { fromEvent } from 'rxjs';
 import { MetadataExplorerService } from './metadata.explorer.service.js';
-import { ZxAINetworkGateway } from '../interfaces/zxai.network.gateway.js';
+import { NaeuralNetworkGateway } from '../interfaces/naeural.network.gateway.js';
 import { MappingType, MessageMappingProperties } from '../interfaces/message.mapping.properties.js';
-import { ZxAIClient, ZxAIEventType } from '@naeural/jsclient';
-import { DEFAULT_CLIENT_NAME } from '../zxai.constants.js';
+import { Naeural, NaeuralEventType } from '@naeural/jsclient';
+import { DEFAULT_CLIENT_NAME } from '../naeural.constants.js';
 
 @Injectable()
-export class ZxAIService {
-    private readonly logger = new Logger(ZxAIService.name, {
+export class NaeuralService {
+    private readonly logger = new Logger(NaeuralService.name, {
         timestamp: true,
     });
 
     constructor(
-        @Inject(DEFAULT_CLIENT_NAME) private readonly client: ZxAIClient,
+        @Inject(DEFAULT_CLIENT_NAME) private readonly client: Naeural,
         private readonly explorerService: MetadataExplorerService,
     ) {}
 
     public subscribe() {
         // TODO: implement lifecycle hooks (connect, disconnect, etc)
 
-        this.explorerService.extractGateways().forEach((instance: ZxAINetworkGateway) => {
+        this.explorerService.extractGateways().forEach((instance: NaeuralNetworkGateway) => {
             const allHandlers = this.explorerService.exploreGateway(instance);
 
             this.subscribePayloads(
@@ -47,8 +47,8 @@ export class ZxAIService {
     }
 
     private subscribeClientEvents(
-        client: ZxAIClient,
-        instance: ZxAINetworkGateway,
+        client: Naeural,
+        instance: NaeuralNetworkGateway,
         subscribersMap: MessageMappingProperties[],
     ) {
         const handlers = subscribersMap.map(({ callback, path }) => ({
@@ -65,8 +65,8 @@ export class ZxAIService {
     }
 
     private subscribeStreams(
-        client: ZxAIClient,
-        instance: ZxAINetworkGateway,
+        client: Naeural,
+        instance: NaeuralNetworkGateway,
         subscribersMap: MessageMappingProperties[],
     ) {
         const handlers = subscribersMap.map(({ callback, path }) => ({
@@ -75,15 +75,15 @@ export class ZxAIService {
         }));
 
         handlers.forEach(({ path, callback }) => {
-            client.getStream(<ZxAIEventType>path).subscribe((message: any) => {
+            client.getStream(<NaeuralEventType>path).subscribe((message: any) => {
                 callback(message);
             });
         });
     }
 
     private subscribePayloads(
-        client: ZxAIClient,
-        instance: ZxAINetworkGateway,
+        client: Naeural,
+        instance: NaeuralNetworkGateway,
         subscribersMap: MessageMappingProperties[],
     ) {
         const handlers = subscribersMap.map(({ callback, path, paramOrder }) => ({
@@ -119,7 +119,7 @@ export class ZxAIService {
         }
     }
 
-    private printSubscriptionLogs(instance: ZxAINetworkGateway, subscribersMap: MessageMappingProperties[]) {
+    private printSubscriptionLogs(instance: NaeuralNetworkGateway, subscribersMap: MessageMappingProperties[]) {
         // eslint-disable-next-line @typescript-eslint/ban-types
         const gatewayClassName = (instance as Object)?.constructor?.name;
         if (!gatewayClassName) {

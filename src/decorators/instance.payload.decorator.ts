@@ -1,4 +1,4 @@
-import { PAYLOAD_MAPPING_METADATA, PAYLOAD_SUBSCRIPTION_METADATA } from '../zxai.constants.js';
+import { PAYLOAD_MAPPING_METADATA, PAYLOAD_SUBSCRIPTION_METADATA } from '../naeural.constants.js';
 
 /**
  * Subscribe to NaeuralEdgeProtocol Network PluginInstance payload.

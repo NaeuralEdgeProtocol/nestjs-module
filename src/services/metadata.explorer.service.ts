@@ -5,7 +5,7 @@ import { Module } from '@nestjs/core/injector/module.js';
 import { ModulesContainer } from '@nestjs/core/injector/modules-container.js';
 import { MetadataScanner } from '@nestjs/core/metadata-scanner.js';
 import {
-    ZxAI_GATEWAY_METADATA,
+    NAEURAL_GATEWAY_METADATA,
     CLIENT_EVENT_MAPPING_METADATA,
     CLIENT_EVENT_SUBSCRIPTION_METADATA,
     NETWORK_CLIENT_METADATA,
@@ -13,9 +13,9 @@ import {
     PAYLOAD_SUBSCRIPTION_METADATA,
     STREAM_MAPPING_METADATA,
     STREAM_SUBSCRIPTION_METADATA,
-} from '../zxai.constants.js';
+} from '../naeural.constants.js';
 import { isFunction, isUndefined } from '@nestjs/common/utils/shared.utils.js';
-import { ZxAINetworkGateway } from '../interfaces/zxai.network.gateway.js';
+import { NaeuralNetworkGateway } from '../interfaces/naeural.network.gateway.js';
 import { MappingType, MessageMappingProperties } from '../interfaces/message.mapping.properties.js';
 import { IsObject } from '../utils.js';
 
@@ -35,10 +35,10 @@ export class MetadataExplorerService {
 
     extractGateways() {
         const modules = [...this.modulesContainer.values()];
-        return this.flatMap(modules, (instance) => this.filterProvider(instance, ZxAI_GATEWAY_METADATA));
+        return this.flatMap(modules, (instance) => this.filterProvider(instance, NAEURAL_GATEWAY_METADATA));
     }
 
-    exploreGateway(gateway: ZxAINetworkGateway): MessageMappingProperties[] {
+    exploreGateway(gateway: NaeuralNetworkGateway): MessageMappingProperties[] {
         const instancePrototype = Object.getPrototypeOf(gateway);
 
         return this.metadataScanner
