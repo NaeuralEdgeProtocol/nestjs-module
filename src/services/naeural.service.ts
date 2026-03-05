@@ -3,7 +3,7 @@ import { fromEvent } from 'rxjs';
 import { MetadataExplorerService } from './metadata.explorer.service.js';
 import { NaeuralNetworkGateway } from '../interfaces/naeural.network.gateway.js';
 import { MappingType, MessageMappingProperties } from '../interfaces/message.mapping.properties.js';
-import { Naeural, NaeuralEventType } from '@naeural/jsclient';
+import { Naeural, NaeuralEventType } from '@hyfy/jsclient';
 import { DEFAULT_CLIENT_NAME } from '../naeural.constants.js';
 
 @Injectable()

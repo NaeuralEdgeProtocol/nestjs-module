@@ -1,5 +1,5 @@
 import { ModuleMetadata, Provider, Type } from '@nestjs/common';
-import { Naeural, NaeuralOptions } from '@naeural/jsclient';
+import { Naeural, NaeuralOptions } from '@hyfy/jsclient';
 
 export type NaeuralClientFactory = (options?: NaeuralOptions) => Promise<Naeural>;
 

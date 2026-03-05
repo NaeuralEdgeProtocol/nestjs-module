@@ -9,7 +9,7 @@ import {
     Type,
 } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
-import { NaeuralOptions, Naeural, NaeuralEvent } from '@naeural/jsclient';
+import { NaeuralOptions, Naeural, NaeuralEvent } from '@hyfy/jsclient';
 import {NAEURAL_MODULE_OPTIONS, DEFAULT_CLIENT_NAME, NAEURAL_MODULE_ID} from './naeural.constants.js';
 import {
     NaeuralClientFactory,
