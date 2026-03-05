@@ -1,6 +1,6 @@
 {
   "name": "@hyfy/nestjs-module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This is the official NestJS module for integrating the R1ENs nodes with jsclient in a NestJS application.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,8 @@
   ],
   "author": "NaeuralEdgeProtocol Team",
   "contributors": [
-    "Radu Lupaescu <radu.lupaescu@gmail.com>"
+    "Radu Lupaescu <radu.lupaescu@gmail.com>",
+    "Andrei Ionut Damian <andrei.damian@me.com>"
   ],
   "license": "MIT",
   "bugs": {
