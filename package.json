@@ -1,6 +1,6 @@
 {
   "name": "@hyfy/nestjs-module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "This is the official NestJS module for integrating the R1ENs nodes with jsclient in a NestJS application.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/NaeuralEdgeProtocol/nestjs-module#readme",
   "dependencies": {
-    "@hyfy/jsclient": "^3.1.21",
+    "@hyfy/jsclient": "^4.0.2",
     "reflect-metadata": "^0.1.13",
     "typescript": "^5.1.6",
     "uuid": "^9.0.0"
