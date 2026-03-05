@@ -1,7 +1,7 @@
 {
   "name": "@hyfy/nestjs-module",
-  "version": "1.0.0",
-  "description": "This is the official NaeuralEdgeProtocol NestJS module for integrating the NaeuralEdgeProtocol Network in a NestJS application.",
+  "version": "1.0.1",
+  "description": "This is the official NestJS module for integrating the R1ENs nodes with jsclient in a NestJS application.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
