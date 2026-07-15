@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.0.4] - 2026-07-15
+
+### Packaging
+
+- Added an explicit `dist/` publish allowlist so future package versions cannot include repository governance or development files.
+- Prepared version `1.0.4` as the clean successor to the contaminated `1.0.3` tarball. Backend must not reference it until publication is verified from the live npm registry.
+
 ## [1.0.3] - 2026-03-05
 
 ### Updated
